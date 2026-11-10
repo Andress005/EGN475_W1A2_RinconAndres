@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Calle Ocho | Your Order</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body>
+<header class="container">
+    <nav>
+        <ul>
+            <li><strong>Café Calle Ocho</strong></li>
+        </ul>
+        <ul>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="order.html">Your Order</a></li>
+            <li><a href="history.html">Order History</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Your Order</h1>
+    <p>Review your items before submitting your order.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Café con Leche</td>
+                <td>1</td>
+                <td>$3.50</td>
+            </tr>
+            <tr>
+                <td>Guava Pastelito</td>
+                <td>2</td>
+                <td>$5.00</td>
+            </tr>
+            <tr>
+                <td>Cuban Sandwich</td>
+                <td>1</td>
+                <td>$8.50</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form>
+        <label for="customer-name">Customer Name</label>
+        <input type="text" id="customer-name" name="customer-name"
+               value="Alex Rodriguez" required>
+
+        <label for="instructions">Special Instructions</label>
+        <textarea id="instructions" name="instructions"
+                  placeholder="Any special requests?"></textarea>
+    </form>
+
+    <article>
+        <h3>Order Summary</h3>
+        <p>Subtotal: $17.00</p>
+        <h3>Total: $17.00</h3>
+    </article>
+
+    <div class="grid">
+        <a href="menu.html" role="button" class="secondary">Back to Menu</a>
+        <a href="confirmation.html" role="button">Submit Order</a>
+    </div>
+</main>
+
+<footer class="container">
+    <hr>
+    <p>Café Calle Ocho | Miami, Florida</p>
+</footer>
+</body>
+</html>
