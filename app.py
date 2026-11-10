@@ -49,18 +49,66 @@ SAMPLE_ITEMS = [
     }
 ]
 
+
 # Sample kitchen orders
 SAMPLE_KITCHEN_ORDERS = [
-    {"id": 101, "customer": "Maria", "items": "Cuban Sandwich, Café con Leche", "status": "Preparing"},
-    {"id": 102, "customer": "Carlos", "items": "Guava Pastelito, Cortadito", "status": "New"},
-    {"id": 103, "customer": "Sofia", "items": "Cuban Toast, Ham Croqueta", "status": "Ready"}
+    {
+        "id": 1001,
+        "customer": "Alex Rodriguez",
+        "items": "Cuban Sandwich, 2 Pastelitos, Coffee",
+        "status": "Preparing"
+    },
+    {
+        "id": 1002,
+        "customer": "Maria Lopez",
+        "items": "2 Cuban Toast, Café con Leche",
+        "status": "Pending"
+    },
+    {
+        "id": 1003,
+        "customer": "David Perez",
+        "items": "3 Pastelitos, 2 Coffees",
+        "status": "Ready"
+    },
+    {
+        "id": 1004,
+        "customer": "Sofia Garcia",
+        "items": "Cuban Sandwich",
+        "status": "Preparing"
+    }
 ]
+
 
 # Sample order history
 SAMPLE_ORDERS = [
-    {"id": 101, "customer": "Maria", "date": "November 8, 2026", "total_cents": 1200},
-    {"id": 102, "customer": "Carlos", "date": "November 7, 2026", "total_cents": 525},
-    {"id": 103, "customer": "Sofia", "date": "November 6, 2026", "total_cents": 375}
+    {
+        "id": 1001,
+        "date": "October 29, 2026",
+        "items": "Cuban Sandwich, Coffee, Pastelitos",
+        "total_cents": 1700,
+        "status": "Preparing"
+    },
+    {
+        "id": 998,
+        "date": "October 27, 2026",
+        "items": "Café con Leche, Cuban Toast",
+        "total_cents": 550,
+        "status": "Completed"
+    },
+    {
+        "id": 992,
+        "date": "October 24, 2026",
+        "items": "2 Cuban Sandwiches",
+        "total_cents": 1700,
+        "status": "Completed"
+    }
+]
+
+#Sample order items
+SAMPLE_ORDER_ITEMS = [
+    {"name": "Café con Leche", "quantity": 1, "price_cents": 350},
+    {"name": "Guava Pastelito", "quantity": 2, "price_cents": 250},
+    {"name": "Cuban Sandwich", "quantity": 1, "price_cents": 850}
 ]
 
 
@@ -93,8 +141,17 @@ def item_detail(item_id):
 # New order page
 @app.route("/order/new")
 def new_order():
-    return render_template("order.html")
+    total_cents = sum(
+        item["quantity"] * item["price_cents"]
+        for item in SAMPLE_ORDER_ITEMS
+    )
 
+    return render_template(
+        "order.html",
+        order_items=SAMPLE_ORDER_ITEMS,
+        customer="Alex Rodriguez",
+        total_cents=total_cents
+    )
 
 # Kitchen board
 @app.route("/kitchen")

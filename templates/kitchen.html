@@ -1,78 +1,53 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Café Calle Ocho | Kitchen Board</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-</head>
-<body>
-<header class="container">
-    <nav>
-        <ul>
-            <li><strong>Café Calle Ocho – Kitchen</strong></li>
-        </ul>
-        <ul>
-            <li><a href="kitchen.html">Kitchen Board</a></li>
-            <li><a href="menu-admin.html">Menu Admin</a></li>
-            <li><a href="menu.html">Customer Menu</a></li>
-        </ul>
-    </nav>
-</header>
+{% extends "base.html" %}
 
-<main class="container">
-    <h1>Kitchen Board</h1>
-    <p>Incoming customer orders and preparation status.</p>
+{% block title %}Kitchen Board | Café Calle Ocho{% endblock %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Order</th>
-                <th>Customer</th>
-                <th>Items</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>#1001</td>
-                <td>Alex Rodriguez</td>
-                <td>Cuban Sandwich, 2 Pastelitos, Coffee</td>
-                <td><mark>Preparing</mark></td>
-                <td><button class="secondary">Mark Ready</button></td>
-            </tr>
-            <tr>
-                <td>#1002</td>
-                <td>Maria Lopez</td>
-                <td>2 Cuban Toast, Café con Leche</td>
-                <td>Pending</td>
-                <td><button>Start Order</button></td>
-            </tr>
-            <tr>
-                <td>#1003</td>
-                <td>David Perez</td>
-                <td>3 Pastelitos, 2 Coffees</td>
-                <td>Ready</td>
-                <td><button class="secondary">Completed</button></td>
-            </tr>
-            <tr>
-                <td>#1004</td>
-                <td>Sofia Garcia</td>
-                <td>Cuban Sandwich</td>
-                <td>Preparing</td>
-                <td><button class="secondary">Mark Ready</button></td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
 
-    <a href="menu-admin.html" role="button">Manage Menu</a>
-</main>
+<h1>Kitchen Board</h1>
+<p>Incoming customer orders and preparation status.</p>
 
-<footer class="container">
-    <hr>
-    <p>Café Calle Ocho | Staff Dashboard</p>
-</footer>
-</body>
-</html>
+<table>
+    <thead>
+        <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.customer }}</td>
+            <td>{{ order.items }}</td>
+            <td>
+                <mark>{{ order.status }}</mark>
+            </td>
+            <td>
+                {% if order.status == "Pending" %}
+                    <button>Start Order</button>
+                {% elif order.status == "Preparing" %}
+                    <button class="secondary">Mark Ready</button>
+                {% else %}
+                    <button class="secondary">Completed</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('menu_admin') }}" role="button">
+    Manage Menu
+</a>
+
+<p>
+    <a href="{{ url_for('menu') }}">Customer Menu</a>
+</p>
+
+{% endblock %}
