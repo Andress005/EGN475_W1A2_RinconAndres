@@ -1,82 +1,54 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Café Calle Ocho | Your Order</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-</head>
-<body>
-<header class="container">
-    <nav>
-        <ul>
-            <li><strong>Café Calle Ocho</strong></li>
-        </ul>
-        <ul>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="order.html">Your Order</a></li>
-            <li><a href="history.html">Order History</a></li>
-        </ul>
-    </nav>
-</header>
+{% extends "base.html" %}
 
-<main class="container">
-    <h1>Your Order</h1>
-    <p>Review your items before submitting your order.</p>
+{% block title %}Your Order | Café Calle Ocho{% endblock %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Café con Leche</td>
-                <td>1</td>
-                <td>$3.50</td>
-            </tr>
-            <tr>
-                <td>Guava Pastelito</td>
-                <td>2</td>
-                <td>$5.00</td>
-            </tr>
-            <tr>
-                <td>Cuban Sandwich</td>
-                <td>1</td>
-                <td>$8.50</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
+<h1>Your Order</h1>
+<p>Review your items before submitting your order.</p>
 
-    <form>
-        <label for="customer-name">Customer Name</label>
-        <input type="text" id="customer-name" name="customer-name"
-               value="Alex Rodriguez" required>
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in order_items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ "%.2f"|format(item.price_cents * item.quantity / 100) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-        <label for="instructions">Special Instructions</label>
-        <textarea id="instructions" name="instructions"
-                  placeholder="Any special requests?"></textarea>
-    </form>
+<form>
+    <label for="customer-name">Customer Name</label>
+    <input type="text" id="customer-name" name="customer-name"
+           value="{{ customer }}" required>
 
-    <article>
-        <h3>Order Summary</h3>
-        <p>Subtotal: $17.00</p>
-        <h3>Total: $17.00</h3>
-    </article>
+    <label for="instructions">Special Instructions</label>
+    <textarea id="instructions" name="instructions"
+              placeholder="Any special requests?"></textarea>
+</form>
 
-    <div class="grid">
-        <a href="menu.html" role="button" class="secondary">Back to Menu</a>
-        <a href="confirmation.html" role="button">Submit Order</a>
-    </div>
-</main>
+<article>
+    <h3>Order Summary</h3>
+    <p>Subtotal: ${{ "%.2f"|format(total_cents / 100) }}</p>
+    <h3>Total: ${{ "%.2f"|format(total_cents / 100) }}</h3>
+</article>
 
-<footer class="container">
-    <hr>
-    <p>Café Calle Ocho | Miami, Florida</p>
-</footer>
-</body>
-</html>
+<div class="grid">
+    <a href="{{ url_for('menu') }}" role="button" class="secondary">
+        Back to Menu
+    </a>
+
+    <a href="{{ url_for('confirmation') }}" role="button">
+        Submit Order
+    </a>
+</div>
+{% endblock %}
