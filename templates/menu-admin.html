@@ -1,98 +1,48 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Café Calle Ocho | Menu Administration</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-</head>
-<body>
-<header class="container">
-    <nav>
-        <ul>
-            <li><strong>Café Calle Ocho – Administration</strong></li>
-        </ul>
-        <ul>
-            <li><a href="kitchen.html">Kitchen Board</a></li>
-            <li><a href="menu-admin.html">Menu Admin</a></li>
-            <li><a href="menu.html">Customer Menu</a></li>
-        </ul>
-    </nav>
-</header>
+{% extends "base.html" %}
 
-<main class="container">
-    <h1>Menu Administration</h1>
-    <p>Review menu items and manage their availability.</p>
+{% block title %}Menu Administration | Café Calle Ocho{% endblock %}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Menu Item</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Availability</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Café con Leche</td>
-                <td>Drinks</td>
-                <td>$3.50</td>
-                <td>
-                    <select aria-label="Café con Leche availability">
-                        <option selected>Available</option>
-                        <option>Unavailable</option>
-                    </select>
-                </td>
-                <td><button>Update</button></td>
-            </tr>
-            <tr>
-                <td>Cuban Sandwich</td>
-                <td>Food</td>
-                <td>$8.50</td>
-                <td>
-                    <select aria-label="Cuban Sandwich availability">
-                        <option selected>Available</option>
-                        <option>Unavailable</option>
-                    </select>
-                </td>
-                <td><button>Update</button></td>
-            </tr>
-            <tr>
-                <td>Guava Pastelito</td>
-                <td>Pastries</td>
-                <td>$2.50</td>
-                <td>
-                    <select aria-label="Guava Pastelito availability">
-                        <option selected>Available</option>
-                        <option>Unavailable</option>
-                    </select>
-                </td>
-                <td><button>Update</button></td>
-            </tr>
-            <tr>
-                <td>Cuban Toast</td>
-                <td>Food</td>
-                <td>$2.00</td>
-                <td>
-                    <select aria-label="Cuban Toast availability">
-                        <option selected>Available</option>
-                        <option>Unavailable</option>
-                    </select>
-                </td>
-                <td><button>Update</button></td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
+<h1>Menu Administration</h1>
+<p>Review menu items and manage their availability.</p>
 
-    <a href="kitchen.html" role="button" class="secondary">Back to Kitchen Board</a>
-</main>
+<table>
+    <thead>
+        <tr>
+            <th>Menu Item</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Availability</th>
+            <th>Action</th>
+        </tr>
+    </thead>
 
-<footer class="container">
-    <hr>
-    <p>Café Calle Ocho | Administration</p>
-</footer>
-</body>
-</html>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>${{ "%.2f"|format(item.price_cents / 100) }}</td>
+            <td>
+                <select aria-label="{{ item.name }} availability">
+                    <option selected>Available</option>
+                    <option>Unavailable</option>
+                </select>
+            </td>
+            <td>
+                <button type="button">Update</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('kitchen') }}" role="button" class="secondary">
+    Back to Kitchen Board
+</a>
+
+<p>
+    <a href="{{ url_for('menu') }}">Customer Menu</a>
+</p>
+{% endblock %}
