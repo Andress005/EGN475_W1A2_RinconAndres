@@ -70,4 +70,63 @@ The main goals of this project are:
 
 Future versions could include online payments, automatic order notifications, customer loyalty programs, and delivery options. These features may be considered after the initial prototype is completed and evaluated.
 
+
+## 8. Week 3 – Flask Application Implementation
+
+For Week 3, the original HTML mockups were converted into a Flask web application using Python and Jinja templates.
+
+The application uses a shared base template to maintain consistent navigation and layout across the different pages.
+
+### Technologies Used
+
+- Python 3
+- Flask
+- Jinja2
+- HTML5
+- Pico CSS
+- Git and GitHub
+
+### Project Structure
+
+- `app.py` – Flask application and page routes.
+- `templates/` – HTML pages using Jinja templates.
+- `static/` – Static files such as CSS and images.
+- `mockup/` – Original HTML mockup pages.
+- `requirements.txt` – Python dependencies.
+- `.gitignore` – Files and folders excluded from Git.
+
+### Application Pages
+
+| Page | Route | Description |
+|---|---|---|
+| Home | `/` | Main welcome page |
+| Menu | `/menu` | Displays available food and drinks |
+| Menu Item | `/menu/<item_id>` | Displays individual menu item details |
+| Your Order | `/order/new` | Displays the customer's sample order |
+| Confirmation | `/confirmation` | Displays order confirmation |
+| Kitchen Board | `/kitchen` | Displays incoming kitchen orders |
+| Order History | `/orders` | Displays previous customer orders |
+| Menu Administration | `/menu-admin` | Displays menu items and availability controls |
+
+### Running the Application
+
+1. Open the project folder in PyCharm.
+2. Activate the virtual environment.
+3. Install the required dependencies:
+
+   `pip install -r requirements.txt`
+
+4. Start the Flask development server:
+
+   `flask --app app run --debug`
+
+5. Open the application in a browser:
+
+   `http://127.0.0.1:5000`
+
+### Current Prototype Limitations
+
+The application currently uses sample data stored in Python lists. Orders are not saved to a database, and menu availability controls do not update actual records.
+
+These features are planned for future development.
 ---
