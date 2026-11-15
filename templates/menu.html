@@ -11,34 +11,38 @@
 <nav aria-label="Menu categories">
     <ul>
         <li><a href="#all">All</a></li>
-        <li><a href="#food">Food</a></li>
-        <li><a href="#drinks">Drinks</a></li>
-        <li><a href="#pastries">Pastries</a></li>
+        {% for category, category_items in items|groupby("category") %}
+            <li><a href="#{{ category|lower }}">{{ category }}</a></li>
+        {% endfor %}
     </ul>
 </nav>
 
 <section id="all">
-    <h2>Popular Items</h2>
+    <h2>Our Menu Items</h2>
 
-    {% for item in items %}
-        <article id="{{ item.category|lower }}">
-            <h3>{{ item.name }}</h3>
+    {% for category, category_items in items|groupby("category") %}
+        <section id="{{ category|lower }}">
+            <h2>{{ category }}</h2>
 
-            <p>{{ item.description }}</p>
+            {% for item in category_items %}
+                <article id="item-{{ item.id }}">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
 
-            <p>
-                <strong>
-                    ${{ "%.2f"|format(item.price_cents / 100) }}
-                </strong>
-            </p>
+                    <p>
+                        <strong>
+                            ${{ "%.2f"|format(item.price_cents / 100) }}
+                        </strong>
+                    </p>
 
-            <a href="{{ url_for('item_detail', item_id=item.id) }}"
-               role="button">
-                View Item
-            </a>
-        </article>
+                    <a href="{{ url_for('item_detail', item_id=item.id) }}"
+                       role="button">
+                        View Item
+                    </a>
+                </article>
+            {% endfor %}
+        </section>
     {% endfor %}
-
 </section>
 
 <a href="{{ url_for('new_order') }}" role="button">
