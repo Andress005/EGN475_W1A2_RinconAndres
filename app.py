@@ -133,7 +133,7 @@ def item_detail(item_id):
     )
 
     if item is None:
-        abort(404)
+        abort(404, description="Menu item not found.")
 
     return render_template("item.html", item=item)
 

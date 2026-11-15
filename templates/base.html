@@ -10,7 +10,7 @@
 <body>
 
 <header class="container">
-    <nav>
+    <nav aria-label="Main navigation">
         <ul>
             <li><a href="{{ url_for('index') }}"><strong>Café Calle Ocho</strong></a></li>
         </ul>
@@ -20,7 +20,7 @@
             <li><a href="{{ url_for('kitchen') }}">Kitchen</a></li>
             <li><a href="{{ url_for('orders') }}">Order History</a></li>
         </ul>
-    </nav>
+    </>
 </header>
 
 <main class="container">
