@@ -1,7 +1,20 @@
 
+import os
 from flask import Flask, render_template, abort
+import db
 
 app = Flask(__name__)
+
+# SQLite database configuration
+app.config["DATABASE"] = os.path.join(
+    app.instance_path,
+    "cafe.sqlite"
+)
+
+os.makedirs(app.instance_path, exist_ok=True)
+
+# Register database helpers
+db.init_app(app)
 
 # Sample menu data
 SAMPLE_ITEMS = [
@@ -121,16 +134,28 @@ def index():
 # Menu page
 @app.route("/menu")
 def menu():
-    return render_template("menu.html", items=SAMPLE_ITEMS)
+    database = db.get_db()
 
+    items = database.execute(
+        """
+        SELECT id, name, category, description, price_cents
+        FROM menu_items
+        WHERE available = 1
+        ORDER BY name
+        """
+    ).fetchall()
+
+    return render_template("menu.html", items=items)
 
 # Individual menu item
 @app.route("/menu/<int:item_id>")
 def item_detail(item_id):
-    item = next(
-        (item for item in SAMPLE_ITEMS if item["id"] == item_id),
-        None
-    )
+    database = db.get_db()
+
+    item = database.execute(
+        "SELECT * FROM menu_items WHERE id = ?",
+        (item_id,)
+    ).fetchone()
 
     if item is None:
         abort(404, description="Menu item not found.")
