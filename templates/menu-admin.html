@@ -7,6 +7,12 @@
 <h1>Menu Administration</h1>
 <p>Review menu items and manage their availability.</p>
 
+<p>
+    <a href="{{ url_for('new_menu_item') }}" role="button">
+        + Add New Menu Item
+    </a>
+</p>
+
 <table>
     <thead>
         <tr>
@@ -25,10 +31,7 @@
             <td>{{ item.category }}</td>
             <td>${{ "%.2f"|format(item.price_cents / 100) }}</td>
             <td>
-                <select aria-label="{{ item.name }} availability">
-                    <option selected>Available</option>
-                    <option>Unavailable</option>
-                </select>
+                {{ "Available" if item.available else "Unavailable" }}
             </td>
             <td>
                 <button type="button">Update</button>

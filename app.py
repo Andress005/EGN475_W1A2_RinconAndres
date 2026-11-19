@@ -1,6 +1,6 @@
 
 import os
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request, redirect, url_for
 import db
 
 app = Flask(__name__)
@@ -205,11 +205,52 @@ def confirmation():
 # Menu administration
 @app.route("/menu-admin")
 def menu_admin():
+    database = db.get_db()
+
+    items = database.execute(
+        "SELECT * FROM menu_items ORDER BY name"
+    ).fetchall()
+
     return render_template(
         "menu-admin.html",
-        items=SAMPLE_ITEMS
+        items=items
     )
 
 
+@app.route("/admin/menu/new", methods=["GET", "POST"])
+def new_menu_item():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        category = request.form.get("category", "").strip()
+        description = request.form.get("description", "").strip()
+        price = request.form.get("price", "").strip()
+
+        if not name:
+            abort(400, description="Menu item name is required.")
+
+        try:
+            price_cents = round(float(price) * 100)
+        except ValueError:
+            abort(400, description="Enter a valid price.")
+
+        if price_cents <= 0:
+            abort(400, description="Price must be greater than zero.")
+
+        database = db.get_db()
+
+        database.execute(
+            """
+            INSERT INTO menu_items
+            (name, category, description, price_cents, available)
+            VALUES (?, ?, ?, ?, 1)
+            """,
+            (name, category, description, price_cents)
+        )
+
+        database.commit()
+
+        return redirect(url_for("menu_admin"))
+
+    return render_template("new-menu-item.html")
 if __name__ == "__main__":
     app.run(debug=True)
